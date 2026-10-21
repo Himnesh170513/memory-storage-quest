@@ -21,8 +21,8 @@ button{font:inherit}.primary,.secondary{border:0;border-radius:10px;padding:11px
 <body>
 <header>
   <div class="badge">COMPUTER STUDIES • RPG LEARNING</div>
-  <h1>🧠 Memory & Storage Quest</h1>
-  <p>Learn each topic, earn XP, level up, and damage the Storage Guardian by answering questions correctly.</p>
+  <h1 id="mainTitle">🧠 Computer Studies Quest</h1>
+  <p id="mainSubtitle">Choose a chapter, study the notes, and practise at your own pace.</p>
 </header>
 <div class="wrap">
   <section class="stats">
@@ -33,10 +33,12 @@ button{font:inherit}.primary,.secondary{border:0;border-radius:10px;padding:11px
   </section>
   <div class="layout">
     <aside class="panel topics">
-      <h2>📚 Chapter Levels</h2>
+      <h2 id="chapterHeading">📚 All Chapters</h2>
+      <div class="actions" style="margin:8px 0 12px"><button class="secondary" id="memoryChapterBtn" type="button">Memory & Storage</button><button class="secondary" id="windowsChapterBtn" type="button">Windows 10</button><button class="secondary" id="allChaptersBtn" type="button">All Chapters</button></div>
+      <p class="muted" style="font-size:.82rem">Choose any chapter or lesson. You do not need to finish questions 61–90 in order.</p>
       <div class="progress"><div id="chapterProgress"></div></div>
       <div id="topicList"></div>
-      <p class="muted" style="font-size:.82rem">Finish a lesson quiz to unlock the next level. Your progress saves in this browser.</p>
+      <p class="muted" style="font-size:.82rem">All lessons are available. Study any topic whenever you want. Your progress saves in this browser.</p>
       <button class="secondary" id="resetBtn">Reset progress</button>
     </aside>
     <main class="main">
@@ -114,6 +116,13 @@ const levels = [
  {q:"Which device is used to transfer data between computers?",o:["Printer","USB flash drive","Monitor","Speaker"],a:1,e:"A USB flash drive can transfer data between computers."},
  {q:"What is the largest unit of digital storage?",o:["Kilobyte","Megabyte","Gigabyte","Terabyte"],a:3,e:"Among the listed choices, Terabyte is the largest."}
  ]}
+
+ ,{title:"Windows Basics & Start Menu",boss:"The Start Menu Sentinel",icon:"🪟",lesson:`<h3>The Start menu</h3><p>The Start menu helps you open programs and access settings. In Windows 10, you can open it by clicking the Start button or pressing <b>Ctrl + Esc</b>.</p><h3>Microsoft Edge</h3><p>Microsoft Edge is the default web browser in Windows 10. A web browser is used to visit websites.</p><h3>Task Manager</h3><p>Task Manager lets you view running apps and processes. The shortcut <b>Ctrl + Shift + Esc</b> opens it directly.</p><div class="callout"><b>Remember:</b> Start menu = apps and settings; Edge = browser; Ctrl + Shift + Esc = Task Manager.</div>`,questions:[]}
+ ,{title:"Cortana, Search & Virtual Desktops",boss:"The Search Sorcerer",icon:"🔎",lesson:`<h3>Cortana</h3><p>Cortana was the personal assistant in Windows 10. It could help users search and carry out simple tasks.</p><h3>Searching</h3><p>Windows 10 lets you search for files and apps from the taskbar search box. You can also use the Start menu to find apps.</p><h3>Task View and virtual desktops</h3><p>Task View shows open windows and helps you manage virtual desktops. Virtual desktops let you organize work into separate desktop spaces.</p><div class="callout"><b>Remember:</b> Cortana = personal assistant; Task View = open windows and virtual desktops.</div>`,questions:[]}
+ ,{title:"Windows, Snap Assist & Shortcuts",boss:"The Shortcut Specter",icon:"⌨️",lesson:`<h3>Manage windows</h3><p>Snap Assist helps arrange windows side by side, making it easier to work with more than one app.</p><h3>Useful keyboard shortcuts</h3><ul><li><b>Win + D:</b> show or hide the desktop by minimizing/restoring windows.</li><li><b>Win + I:</b> open Settings.</li><li><b>Win + L:</b> lock the computer.</li><li><b>Win + R:</b> open the Run dialog box.</li><li><b>Alt + Tab:</b> switch between open apps.</li></ul><div class="callout"><b>Remember:</b> Alt + Tab switches apps; Win + L locks; Win + R opens Run.</div>`,questions:[]}
+ ,{title:"Updates, Photos & Security",boss:"The Defender Dragon",icon:"🛡️",lesson:`<h3>Windows Update</h3><p>Windows Update installs updates for the operating system, which can include security fixes and improvements.</p><h3>Photos app</h3><p>The Photos app is used to view and edit pictures. Paint is another app, but the textbook's answer for viewing and editing photos is Photos.</p><h3>Windows Defender</h3><p>Windows Defender helps protect the computer against viruses and other threats.</p><div class="callout"><b>Remember:</b> Windows Update updates Windows; Photos works with pictures; Defender protects against viruses.</div>`,questions:[]}
+ ,{title:"Files, Recycle Bin & Screenshots",boss:"The Recycle Bin Reaper",icon:"🗑️",lesson:`<h3>File Explorer</h3><p>File Explorer helps you browse, manage and organize files and folders.</p><h3>Recycle Bin</h3><p>When you delete many files normally, they go to the Recycle Bin first. You can restore them or delete them permanently from there.</p><h3>Screenshots and media</h3><p><b>Win + Print Screen</b> takes a screenshot and saves it. The textbook lists Groove Music as the default music app in its Windows 10 question.</p><h3>Shutting down</h3><p>You can shut down a Windows 10 computer through the Start menu's power options.</p><div class="callout"><b>Remember:</b> File Explorer = files; Recycle Bin = temporarily holds deleted files; Win + Print Screen = screenshot.</div>`,questions:[]}
+
 ];
 
 // Official textbook boss-question bank (Q61–Q90), using the user's supplied answer key.
@@ -159,10 +168,47 @@ const textbookBossQuestions = [
 {q:"88. What type of storage is used in an SD card?",o:["Magnetic","Optical","Solid-state","Mechanical"],a:2,e:"Answer: c) Solid-state."},
 {q:"89. Which device is used to transfer data between computers?",o:["Printer","USB flash drive","Monitor","Speaker"],a:1,e:"Answer: b) USB flash drive."},
 {q:"90. What is the largest unit of digital storage?",o:["Kilobyte","Megabyte","Gigabyte","Terabyte"],a:3,e:"Answer: d) Terabyte, among the options listed in the textbook."}
+],
+[
+{q:"91. What is the function of the Start menu in Windows 10?",o:["To turn off the computer","To access programs and settings","To browse the internet","To print documents"],a:1,e:"The textbook answer is to access programs and settings."},
+{q:"92. What is the default web browser in Windows 10?",o:["Chrome","Firefox","Edge","Safari"],a:2,e:"The textbook answer is Edge."},
+{q:"93. What is the keyboard shortcut to open the Start menu?",o:["Ctrl + S","Alt + S","Ctrl + Esc","Win + S"],a:2,e:"Ctrl + Esc opens the Start menu."},
+{q:"94. How do you access the Task Manager in Windows 10?",o:["Ctrl + Alt + Del","Ctrl + Shift + Esc","Win + R","Alt + F4"],a:1,e:"Ctrl + Shift + Esc opens Task Manager directly."},
+{q:"95. Which feature allows you to organize multiple applications in Windows 10?",o:["Task View","Control Panel","File Explorer","Cortana"],a:0,e:"The textbook answer is Task View."}
+],
+[
+{q:"96. What is Cortana in Windows 10?",o:["A web browser","A personal assistant","A file manager","A media player"],a:1,e:"The textbook answer is a personal assistant."},
+{q:"97. How do you search for files and apps in Windows 10?",o:["Using the Taskbar","Using Cortana","Using the Start menu","Using File Explorer"],a:0,e:"The textbook answer is using the Taskbar."},
+{q:"98. What is the name of the virtual desktops feature in Windows 10?",o:["Task View","Snap Assist","Multiple Desktops","Desktop Manager"],a:0,e:"The textbook answer is Task View."},
+{q:"99. What is the Action Center in Windows 10?",o:["A place to manage files","A place to view notifications","A place to change desktop themes","A place to update Windows"],a:1,e:"The textbook answer is a place to view notifications."},
+{q:"100. How do you minimize all open windows in Windows 10?",o:["Win + M","Win + D","Win + Tab","Win + L"],a:0,e:"Win + M minimizes all open windows. Win + D shows the desktop, so the question wording makes Win + M the best answer."}
+],
+[
+{q:"101. What is the purpose of File Explorer in Windows 10?",o:["To browse the internet","To manage files and folders","To play games","To write documents"],a:1,e:"File Explorer is used to manage files and folders."},
+{q:"102. Which of the following is a new feature in Windows 10 compared to previous versions?",o:["Start menu","Internet Explorer","Cortana","Control Panel"],a:2,e:"The textbook answer is Cortana."},
+{q:"103. How can you access Settings in Windows 10?",o:["Win + I","Ctrl + S","Alt + P","Win + S"],a:0,e:"Win + I opens Settings."},
+{q:"104. What is the function of Snap Assist in Windows 10?",o:["To edit photos","To split the screen between apps","To record videos","To update Windows"],a:1,e:"Snap Assist helps arrange apps side by side."},
+{q:"105. How do you lock your computer in Windows 10?",o:["Ctrl + L","Win + L","Alt + L","Shift + L"],a:1,e:"Win + L locks the computer."}
+],
+[
+{q:"106. What is the purpose of Windows Update in Windows 10?",o:["To install new apps","To update the operating system","To backup files","To browse the internet"],a:1,e:"Windows Update updates the operating system."},
+{q:"107. Which app in Windows 10 is used to view and edit photos?",o:["Paint","Photos","Media Player","Camera"],a:1,e:"The textbook answer is Photos."},
+{q:"108. How do you open the Run dialog box in Windows 10?",o:["Ctrl + R","Win + R","Alt + R","Shift + R"],a:1,e:"Win + R opens the Run dialog box."},
+{q:"109. What does the Windows Defender app do in Windows 10?",o:["Play media","Protects against viruses","Manages files","Schedules tasks"],a:1,e:"Windows Defender helps protect against viruses."},
+{q:"110. How do you switch between open apps in Windows 10?",o:["Alt + Tab","Win + Tab","Ctrl + Tab","Shift + Tab"],a:0,e:"Alt + Tab switches between open apps."}
+],
+[
+{q:"111. What is the purpose of the Recycle Bin in Windows 10?",o:["To permanently delete files","To temporarily store deleted files","To organize documents","To manage system settings"],a:1,e:"The Recycle Bin temporarily stores deleted files so they can be restored or deleted permanently."},
+{q:"112. How do you take a screenshot in Windows 10?",o:["Print Screen","Ctrl + Print Screen","Win + Print Screen","Alt + Print Screen"],a:2,e:"The textbook answer is Win + Print Screen."},
+{q:"113. Which feature helps you organize your files and folders in Windows 10?",o:["File Explorer","Task Manager","Control Panel","Cortana"],a:0,e:"The textbook answer is File Explorer."},
+{q:"114. What is the default media player in Windows 10?",o:["Media Player","VLC","Groove Music","Winamp"],a:2,e:"The textbook answer is Groove Music."},
+{q:"115. How do you shut down your computer in Windows 10?",o:["Using Task Manager","Using Control Panel","Using the Start menu","Using File Explorer"],a:2,e:"The textbook answer is using the Start menu."}
 ]
 ];
-levels.forEach((level, i) => { level.questions = textbookBossQuestions[i].map(q => ({...q, o:[...q.o]})); });
+levels.forEach((level, i) => { if (textbookBossQuestions[i]) level.questions = textbookBossQuestions[i].map(q => ({...q, o:[...q.o]})); });
 const $=id=>document.getElementById(id);
+// Display the Windows key as a symbol without changing stored question or answer text.
+function displayShortcut(text){return String(text).replace(/\bWin\s*\+/g,"⊞ +");}
 let state={xp:0,unlocked:0,completed:[],active:0,totalDamage:0,weaponUnlocked:0,practiceClaimed:[]};
 const minecraftWeapons=[
  {name:"Wooden Sword",icon:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2NCA2NCc+PHBhdGggZD0nTTEyIDhMMjIgMyA0OSAzMCA0MyAzNlonIGZpbGw9JyNkN2RjZTMnIHN0cm9rZT0nIzQ0NCcgc3Ryb2tlLXdpZHRoPScyJy8+PHBhdGggZD0nTTI5IDMyTDM3IDI0IDQ0IDMxIDM2IDM5IDIyIDU0IDE1IDQ3WicgZmlsbD0nIzliNjczZScgc3Ryb2tlPScjNTYzYTI2JyBzdHJva2Utd2lkdGg9JzInLz48cGF0aCBkPSdNMTIgNTFMMjAgNDMgMjcgNTAgMTkgNThaJyBmaWxsPScjNzQ0YTJkJyBzdHJva2U9JyM1NjNhMjYnIHN0cm9rZS13aWR0aD0nMicvPjwvc3ZnPg==",damage:4},
@@ -172,7 +218,7 @@ const minecraftWeapons=[
  {name:"Netherite Sword",icon:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA2NCA2NCc+PHBhdGggZD0nTTEyIDhMMjIgMyA0OSAzMCA0MyAzNlonIGZpbGw9JyM3NzZhOGInIHN0cm9rZT0nIzI5MjYzNycgc3Ryb2tlLXdpZHRoPScyJy8+PHBhdGggZD0nTTI5IDMyTDM3IDI0IDQ0IDMxIDM2IDM5IDIyIDU0IDE1IDQ3WicgZmlsbD0nIzg1NTYzZCcgc3Ryb2tlPScjMzkyNzFlJyBzdHJva2Utd2lkdGg9JzInLz48cGF0aCBkPSdNMTIgNTFMMjAgNDMgMjcgNTAgMTkgNThaJyBmaWxsPScjNTkzYjJiJyBzdHJva2U9JyMzOTI3MWUnIHN0cm9rZS13aWR0aD0nMicvPjxwYXRoIGQ9J00xNyAxMUwyMiA4IDQwIDI3IDM2IDMxWicgZmlsbD0nI2YyZThmZicvPjwvc3ZnPg==",damage:8}
 ];
 function currentWeapon(){return minecraftWeapons[Math.min(minecraftWeapons.length-1,Math.max(0,state.weaponUnlocked||0))];}
-function renderWeapon(){const w=currentWeapon();if($("weaponIcon"))$("weaponIcon").textContent=w.icon;if($("weaponName"))$("weaponName").textContent=w.name;if($("weaponInfo"))$("weaponInfo").textContent="Minecraft-style sword progression";if($("weaponDamage"))$("weaponDamage").textContent="+"+w.damage+" attack damage";}
+function renderWeapon(){const w=currentWeapon();if($("weaponIcon")){if($("weaponIcon").tagName==="IMG"){ $("weaponIcon").src=w.icon; $("weaponIcon").alt=w.name+" artwork"; } else { $("weaponIcon").textContent=w.icon; }}if($("weaponName"))$("weaponName").textContent=w.name;if($("weaponInfo"))$("weaponInfo").textContent="Minecraft-style sword progression";if($("weaponDamage"))$("weaponDamage").textContent="+"+w.damage+" attack damage";}
 
 let quizIndex=0,bossHP=100,answered=false,sessionDamage=0,sessionXP=0,sessionCorrect=0,selectedAnswer=null;
 const practiceQuestions=[
@@ -181,26 +227,85 @@ const practiceQuestions=[
 {q:"Which drive is usually faster and has no moving parts?",o:["SSD","Traditional HDD","DVD","Floppy disk"],a:0,e:"An SSD uses flash memory and has no moving parts."},
 {q:"Why make a backup?",o:["Keep an extra copy of important data","Make the screen brighter","Delete files","Improve sound"],a:0,e:"A backup helps recover data if the original is lost."},
 {q:"Which is an optical disc?",o:["DVD","RAM","CPU","SSD chip"],a:0,e:"A DVD uses laser light to read data."},
-{q:"Which is cloud storage?",o:["Google Drive","RAM","CPU register","Keyboard"],a:0,e:"Google Drive stores files on remote servers."}];
+{q:"Which is cloud storage?",o:["Google Drive","RAM","CPU register","Keyboard"],a:0,e:"Google Drive stores files on remote servers."},
+{q:"Which shortcut locks your Windows computer?",o:["Win + L","Win + R","Alt + Tab","Ctrl + Esc"],a:0,e:"Win + L locks the computer."},
+{q:"Which Windows feature helps arrange two app windows side by side?",o:["Snap Assist","Recycle Bin","Groove Music","Windows Defender"],a:0,e:"Snap Assist helps arrange windows side by side."},
+{q:"Which shortcut opens Windows Settings?",o:["Win + I","Win + M","Ctrl + S","Alt + F4"],a:0,e:"Win + I opens Settings."},
+{q:"Which app helps protect Windows against viruses?",o:["Windows Defender","Photos","File Explorer","Groove Music"],a:0,e:"Windows Defender helps protect against viruses."},
+{q:"Where do normally deleted files go first?",o:["Recycle Bin","Taskbar","Cortana","Settings"],a:0,e:"Normally deleted files are temporarily stored in the Recycle Bin."}];
 levels.forEach(l=>{if(l.questions.length!==5)throw new Error("Each boss must have exactly five questions.");});
-function load(){try{const s=JSON.parse(localStorage.getItem("memoryStorageQuestV1"));if(s&&typeof s==="object")state={...state,...s};}catch(e){}state.unlocked=Math.max(0,Math.min(levels.length-1,state.unlocked||0));state.active=Math.max(0,Math.min(levels.length-1,state.active||0));}
+function load(){try{const s=JSON.parse(localStorage.getItem("memoryStorageQuestV1"));if(s&&typeof s==="object")state={...state,...s};}catch(e){}state.unlocked=levels.length-1;state.active=Math.max(0,Math.min(levels.length-1,state.active||0));}
 function save(){try{localStorage.setItem("memoryStorageQuestV1",JSON.stringify(state));}catch(e){}}
 function levelNum(){return Math.floor(state.xp/100)+1}
 function renderStats(){$("level").textContent=levelNum();$("xp").textContent=state.xp+" XP";$("cleared").textContent=state.completed.length+" / "+levels.length;$("damage").textContent=state.totalDamage;$("chapterProgress").style.width=(state.completed.length/levels.length*100)+"%";renderWeapon();}
-function renderTopics(){const list=$("topicList");list.innerHTML="";levels.forEach((l,i)=>{const b=document.createElement("button");b.className="topic"+(i===state.active?" active":"")+(state.completed.includes(i)?" done":"");b.disabled=i>state.unlocked;b.innerHTML=`${state.completed.includes(i)?"✅":i>state.unlocked?"🔒":"⚔️"} ${i+1}. ${l.title}<span>${state.completed.includes(i)?"Level cleared":i>state.unlocked?"Complete previous level to unlock":"Lesson + boss battle"}</span>`;b.onclick=()=>{state.active=i;save();renderTopics();showLesson();};list.appendChild(b);});}
+let selectedChapter="all";
+function renderTopics(){$("chapterHeading").textContent=selectedChapter==="memory"?"📚 Memory & Storage Chapters":selectedChapter==="windows"?"📚 Windows 10 Chapters":"📚 All Chapters";const list=$("topicList");list.innerHTML="";levels.forEach((l,i)=>{if(selectedChapter==="memory"&&i>5)return;if(selectedChapter==="windows"&&i<6)return;const b=document.createElement("button");b.className="topic"+(i===state.active?" active":"")+(state.completed.includes(i)?" done":"");b.disabled=false;b.innerHTML=`${state.completed.includes(i)?"✅":"📘"} ${i+1}. ${l.title}<span>${state.completed.includes(i)?"Level cleared":"Study lesson + optional boss battle"}</span>`;b.onclick=()=>{state.active=i;save();renderTopics();showLesson();};list.appendChild(b);});}
+function updateMainHeading(){
+const title=$("mainTitle"),subtitle=$("mainSubtitle");
+if(selectedChapter==="memory"){title.textContent="🧠 Memory & Storage Quest";subtitle.textContent="Memory and storage lessons, with simple notes and real-life examples.";}
+else if(selectedChapter==="windows"){title.textContent="🪟 Windows 10 Quest";subtitle.textContent="Learn Windows 10 tools, shortcuts, and features in simple language.";}
+else {title.textContent="💻 Computer Studies Quest";subtitle.textContent="Choose a chapter, study the notes, and practise at your own pace.";}
+}
+function chooseChapter(chapter){selectedChapter=chapter;updateMainHeading();renderTopics();if(chapter==="memory"&&state.active>5){state.active=0;showLesson();}else if(chapter==="windows"&&state.active<6){state.active=6;showLesson();}save();}
+$("memoryChapterBtn").onclick=()=>chooseChapter("memory");$("windowsChapterBtn").onclick=()=>chooseChapter("windows");$("allChaptersBtn").onclick=()=>chooseChapter("all");
 function showOnly(id){["lessonPanel","quizPanel","resultPanel"].forEach(x=>$(x).classList.toggle("hidden",x!==id));}
-function showLesson(){const l=levels[state.active];$("lessonBadge").textContent="LEVEL "+(state.active+1)+(state.completed.includes(state.active)?" • CLEARED":"");$("lessonTitle").textContent=l.title;$("lessonContent").innerHTML=l.lesson;$("startBtn").textContent="Start boss fight (unlock with study check)";$("startBtn").disabled=true;renderPractice();showOnly("lessonPanel");}
-function renderPractice(){const q=practiceQuestions[state.active]||practiceQuestions[0];selectedAnswer=null;$("practicePrompt").textContent=q.q;$("practiceOptions").innerHTML="";$("practiceFeedback").className="feedback hidden";$("practiceConfirmBtn").disabled=true;$("startBtn").disabled=true;q.o.forEach((opt,i)=>{const b=document.createElement("button");b.className="option";b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}.</span><span>${opt}</span>`;b.onclick=()=>{selectedAnswer=i;[...$("practiceOptions").querySelectorAll("button")].forEach((x,j)=>x.style.borderColor=j===i?"var(--blue)":"");$("practiceConfirmBtn").disabled=false;};$("practiceOptions").appendChild(b);});}
+function showLesson(){const l=levels[state.active];$("lessonBadge").textContent="LEVEL "+(state.active+1)+(state.completed.includes(state.active)?" • CLEARED":"");$("lessonTitle").textContent=l.title;$("lessonContent").innerHTML=l.lesson;
+// Study-first safeguard: explicitly teach every fact tested in this level before the boss can start.
+const studyGuide=document.createElement("section");studyGuide.className="callout";studyGuide.style.marginTop="14px";
+const guideTitle=document.createElement("h3");guideTitle.textContent="Study Guide — "+l.title;studyGuide.appendChild(guideTitle);
+const glossary=document.createElement("div");glossary.style.marginTop="12px";
+glossary.innerHTML=`<h3>Quick Terms & Full Forms</h3>
+<ul>
+<li><b>RAM — Random Access Memory:</b> temporary working memory; like a desk for work in progress.</li>
+<li><b>ROM — Read-Only Memory:</b> non-volatile memory associated with important startup instructions.</li>
+<li><b>CPU — Central Processing Unit:</b> carries out instructions and calculations.</li>
+<li><b>HDD — Hard Disk Drive:</b> magnetic storage with moving parts.</li>
+<li><b>SSD — Solid State Drive:</b> flash storage with no moving parts; usually faster than an HDD.</li>
+<li><b>USB — Universal Serial Bus:</b> common connection used by devices such as flash drives.</li>
+<li><b>CD — Compact Disc; DVD — Digital Versatile Disc:</b> optical discs read by a laser; a typical DVD stores about 4.7 GB.</li>
+<li><b>BIOS — Basic Input/Output System:</b> firmware that helps start the computer.</li>
+<li><b>KB, MB, GB, TB:</b> data-size units; from smaller to larger: KB, MB, GB, TB.</li>
+<li><b>Cache:</b> fast memory for frequently needed information. <b>Register:</b> tiny, very fast storage inside the CPU.</li>
+<li><b>Secondary storage:</b> keeps files when power is off, e.g. HDD, SSD or USB drive.</li>
+<li><b>Volatile:</b> usually loses data without power, e.g. RAM. <b>Non-volatile:</b> keeps data, e.g. SSD.</li>
+<li><b>Cloud storage:</b> files stored online, e.g. Google Drive. <b>Virtual memory:</b> drive space used to help when RAM is limited.</li>
+<li><b>OS — Operating System:</b> manages the computer and apps, e.g. Windows 10.</li>
+<li><b>Edge:</b> web browser. <b>Task Manager:</b> manages running apps (Ctrl + Shift + Esc).</li>
+<li><b>Cortana:</b> Windows 10 digital assistant. <b>Taskbar:</b> bar with app icons. <b>Task View:</b> shows open windows and virtual desktops.</li>
+<li><b>Virtual desktop:</b> separate workspace. <b>Snap Assist:</b> arranges windows side by side.</li>
+<li><b>Shortcuts:</b> ⊞ + I = Settings; ⊞ + L = lock; ⊞ + R = Run; Alt + Tab = switch apps; ⊞ + D = show desktop.</li>
+<li><b>Windows Update:</b> installs system updates. <b>File Explorer:</b> manages files. <b>Recycle Bin:</b> holds many deleted files temporarily.</li>
+<li><b>⊞ + Print Screen:</b> saves a screenshot. <b>Windows Defender:</b> helps protect against malware.</li>
+<li><b>Photos:</b> views pictures. <b>Paint:</b> simple drawing. <b>Groove Music:</b> music app named in the textbook.</li>
+</ul>`;
+studyGuide.appendChild(glossary);
+const teachingByLevel = [
+`<h3>Remember these points</h3><ul><li><b>RAM:</b> short-term memory for things the computer is using right now. Think of it as your desk while doing homework.</li><li><b>RAM is temporary:</b> its contents usually disappear when the computer turns off.</li><li><b>ROM:</b> keeps important instructions even when the power is off.</li><li><b>Storage:</b> keeps files for later, like a cupboard for your books.</li><li><b>Example:</b> a game uses RAM while you play, but saved game files stay on the drive.</li></ul>`,
+`<h3>Remember these points</h3><ul><li><b>CPU — Central Processing Unit:</b> follows instructions and does calculations. It is like the worker doing the job.</li><li><b>Register:</b> holds a tiny piece of information the CPU needs right away, like an item in your hand.</li><li><b>Cache:</b> keeps often-used information close to the CPU so it can get it quickly, like keeping your most-used pencils nearby.</li><li>RAM, cache and registers help the computer work; they are not where you normally keep files for years.</li></ul>`,
+`<h3>Remember these points</h3><ul><li><b>HDD — Hard Disk Drive:</b> saves files on spinning disks inside the drive.</li><li><b>SSD — Solid State Drive:</b> saves files on memory chips and has no spinning parts. It is usually faster.</li><li><b>USB flash drive:</b> a small device you can carry to move files between computers.</li><li><b>Backup:</b> an extra copy of important files. For example, keep another copy of family photos on an external drive.</li></ul>`,
+`<h3>Remember these points</h3><ul><li><b>CD and DVD:</b> discs that use a laser to read information.</li><li>A typical CD holds about <b>700 MB</b>. A typical single-layer DVD holds about <b>4.7 GB</b>.</li><li><b>Solid-state storage:</b> USB drives and SD cards use chips and have no spinning disk.</li><li><b>Magnetic storage:</b> hard drives and tape drives store information using magnetism.</li><li><b>Example:</b> a tape drive can be used to keep a large backup for a long time.</li></ul>`,
+`<h3>Remember these points</h3><ul><li><b>Cloud storage:</b> keeps your files on computers online, so you can reach them through the internet. Example: Google Drive.</li><li><b>Virtual memory:</b> uses some storage space to help when RAM is running low. It is slower than RAM.</li><li><b>Bit:</b> a tiny piece of digital information, either 0 or 1. <b>Byte:</b> usually 8 bits.</li><li><b>Storage sizes:</b> KB = kilobyte, MB = megabyte, GB = gigabyte, TB = terabyte.</li><li>From these four units, <b>TB is the biggest</b>.</li></ul>`,
+`<h3>Remember these points</h3><ul><li><b>OS — Operating System:</b> the main software that helps the computer and its apps work. Windows 10 is an example.</li><li><b>Start menu:</b> helps you open apps and settings.</li><li><b>Microsoft Edge:</b> an app for visiting websites.</li><li><b>Task Manager:</b> shows which apps are running and can help close an app that has frozen.</li><li><b>Shortcut:</b> Ctrl + Shift + Esc opens Task Manager quickly.</li></ul>`,
+`<h3>Remember these points</h3><ul><li><b>Taskbar:</b> the bar, usually at the bottom of the screen, with app icons and search.</li><li><b>Cortana:</b> a digital assistant included with Windows 10.</li><li><b>Task View:</b> shows the windows you have open and helps you manage desktops.</li><li><b>Virtual desktops:</b> separate workspaces. You could keep schoolwork on one and personal apps on another.</li><li>These tools help keep your screen and work organized.</li></ul>`,
+`<h3>Remember these points</h3><ul><li><b>Snap Assist:</b> lets you place two app windows side by side, such as a worksheet and your notes.</li><li><b>⊞ + I:</b> opens Settings.</li><li><b>⊞ + L:</b> locks the computer so other people cannot use it without signing in.</li><li><b>⊞ + R:</b> opens the Run box, where you can type a command or app name.</li><li><b>Alt + Tab:</b> switches between open apps. <b>⊞ + D:</b> shows the desktop.</li></ul>`,
+`<h3>Remember these points</h3><ul><li><b>Windows Update:</b> downloads updates and fixes for Windows. Updates can help keep your computer safer.</li><li><b>Photos:</b> opens and views pictures. <b>Paint:</b> is for simple drawing and editing.</li><li><b>Windows Defender:</b> helps protect the computer from viruses and other harmful software.</li><li><b>Real-life tip:</b> updates are like repairing a broken lock, but you should still avoid suspicious links and downloads.</li></ul>`,
+`<h3>Remember these points</h3><ul><li><b>File Explorer:</b> helps you find and organise files and folders, like labelled folders in your school bag.</li><li><b>Recycle Bin:</b> keeps many deleted files for a while so you may restore them.</li><li><b>Screenshot:</b> a picture of what is currently on your screen.</li><li><b>⊞ + Print Screen:</b> saves a screenshot on the computer.</li><li><b>Groove Music:</b> the music app named in these Windows 10 questions.</li></ul>`
+];
+const teaching=document.createElement("div");teaching.className="lesson";teaching.innerHTML=teachingByLevel[state.active]||l.lesson;
+studyGuide.appendChild(teaching);
+const note=document.createElement("p");note.className="muted";note.style.marginTop="12px";note.textContent="Study the explanations and examples above first. The boss battle will test these ideas, but the questions and answers are kept out of this lesson so you can learn the concepts instead of memorizing an answer list.";studyGuide.appendChild(note);
+$("lessonContent").appendChild(studyGuide);$("startBtn").textContent="Start boss fight (unlock with study check)";$("startBtn").disabled=true;renderPractice();showOnly("lessonPanel");}
+function renderPractice(){const q=practiceQuestions[state.active]||practiceQuestions[0];selectedAnswer=null;$("practicePrompt").textContent=displayShortcut(q.q);$("practiceOptions").innerHTML="";$("practiceFeedback").className="feedback hidden";$("practiceConfirmBtn").disabled=true;$("startBtn").disabled=true;q.o.forEach((opt,i)=>{const b=document.createElement("button");b.className="option";b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}.</span><span>${displayShortcut(opt)}</span>`;b.onclick=()=>{selectedAnswer=i;[...$("practiceOptions").querySelectorAll("button")].forEach((x,j)=>x.style.borderColor=j===i?"var(--blue)":"");$("practiceConfirmBtn").disabled=false;};$("practiceOptions").appendChild(b);});}
 function confirmPractice(){const q=practiceQuestions[state.active]||practiceQuestions[0];if(selectedAnswer===null)return;const fb=$("practiceFeedback");fb.classList.remove("hidden");if(selectedAnswer===q.a){fb.className="feedback good";const w=currentWeapon();fb.innerHTML=`<b>Correct! ${w.name} ready</b><br>${q.e}<br><b>Reward: +10 XP. ${w.name} adds +${w.damage} attack damage.</b>`;$("practiceOptions").querySelectorAll("button").forEach(b=>b.disabled=true);$("practiceConfirmBtn").disabled=true;$("startBtn").disabled=false;$("startBtn").textContent="Enter boss fight ⚔️";state.practiceClaimed=state.practiceClaimed||[];if(!state.practiceClaimed.includes(state.active)){state.xp+=10;state.practiceClaimed.push(state.active);}renderStats();save();}else{fb.className="feedback bad";fb.innerHTML=`<b>Try again!</b><br>${q.e}`;selectedAnswer=null;$("practiceConfirmBtn").disabled=true;}}
 function startQuiz(){const l=levels[state.active];quizIndex=0;bossHP=100;answered=false;selectedAnswer=null;sessionDamage=0;sessionXP=0;sessionCorrect=0;$("bossName").textContent=l.boss;$("bossIcon").textContent=l.icon;showOnly("quizPanel");renderQuestion();}
-function renderQuestion(){const l=levels[state.active],q=l.questions[quizIndex];answered=false;selectedAnswer=null;$("quizBadge").textContent=`QUESTION ${quizIndex+1} / 5 • NEED 5/5 CORRECT`;$("questionText").textContent=q.q;$("feedback").className="feedback hidden";$("feedback").textContent="";$("nextBtn").classList.add("hidden");$("backBtn").classList.add("hidden");$("options").innerHTML="";$("confirmAnswerBtn").disabled=true;$("hpText").textContent=`${bossHP} / 100`+` • ${currentWeapon().name} +${currentWeapon().damage}`;$("hpBar").style.width=bossHP+"%";q.o.forEach((opt,i)=>{const b=document.createElement("button");b.className="option";b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}.</span><span>${opt}</span>`;b.onclick=()=>{if(answered)return;selectedAnswer=i;[...$("options").querySelectorAll("button")].forEach((x,j)=>x.style.borderColor=j===i?"var(--blue)":"");$("confirmAnswerBtn").disabled=false;};$("options").appendChild(b);});}
+function renderQuestion(){const l=levels[state.active],q=l.questions[quizIndex];answered=false;selectedAnswer=null;$("quizBadge").textContent=`QUESTION ${quizIndex+1} / 5 • NEED 5/5 CORRECT`;$("questionText").textContent=displayShortcut(q.q);$("feedback").className="feedback hidden";$("feedback").textContent="";$("nextBtn").classList.add("hidden");$("backBtn").classList.add("hidden");$("options").innerHTML="";$("confirmAnswerBtn").disabled=true;$("hpText").textContent=`${bossHP} / 100`+` • ${currentWeapon().name} +${currentWeapon().damage}`;$("hpBar").style.width=bossHP+"%";q.o.forEach((opt,i)=>{const b=document.createElement("button");b.className="option";b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}.</span><span>${displayShortcut(opt)}</span>`;b.onclick=()=>{if(answered)return;selectedAnswer=i;[...$("options").querySelectorAll("button")].forEach((x,j)=>x.style.borderColor=j===i?"var(--blue)":"");$("confirmAnswerBtn").disabled=false;};$("options").appendChild(b);});}
 function chooseAnswer(){if(answered||selectedAnswer===null)return;const index=selectedAnswer,q=levels[state.active].questions[quizIndex],fb=$("feedback");fb.classList.remove("hidden");if(index===q.a){answered=true;[...$("options").querySelectorAll("button")].forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add("correct");});const weapon=currentWeapon();const dmg=25+weapon.damage;sessionCorrect++;if(bossHP<=0){const bonusXP=dmg;sessionXP+=20+bonusXP;state.xp+=20+bonusXP;fb.className="feedback good";fb.innerHTML=`<b>👑 The boss is already defeated!</b><br>${q.e}<br>Your extra attack converts into <b>+${bonusXP} bonus XP</b> instead of wasted damage. You also earned <b>+20 XP</b> for the correct answer!`;}else{const actualDamage=Math.min(bossHP,dmg);bossHP=Math.max(0,bossHP-actualDamage);sessionDamage+=actualDamage;sessionXP+=20;state.xp+=20;state.totalDamage+=actualDamage;fb.className="feedback good";fb.innerHTML=`<b>⚔️ Correct! ${actualDamage} damage dealt!</b><br>${q.e}<br><b>+20 XP</b>${bossHP===0?'<br><b>💥 Boss defeated! Any further correct attacks will convert to bonus XP.</b>':''}`;}$("confirmAnswerBtn").disabled=true;$("nextBtn").classList.remove("hidden");$("nextBtn").textContent=quizIndex===4?"Finish battle →":"Next question →";}else{fb.className="feedback bad";fb.innerHTML=`<b>❌ Incorrect — all 5 answers must be correct.</b><br>${q.e}<br><b>Try this question again.</b>`;$("options").querySelectorAll("button").forEach(b=>{b.disabled=false;b.classList.remove("wrong","correct");});selectedAnswer=null;$("confirmAnswerBtn").disabled=true;}$("hpText").textContent=`${bossHP} / 100`+` • ${currentWeapon().name} +${currentWeapon().damage}`;$("hpBar").style.width=bossHP+"%";renderStats();save();}
 function nextQuestion(){if(quizIndex<4){quizIndex++;renderQuestion();}else if(sessionCorrect===5)finishLevel();}
-function finishLevel(){const i=state.active,l=levels[i],won=bossHP===0;if(!state.completed.includes(i)){state.completed.push(i);state.completed.sort((a,b)=>a-b);state.xp+=30;sessionXP+=30;state.totalDamage+=0;}if(i===state.unlocked&&i<levels.length-1)state.unlocked=i+1;state.weaponUnlocked=Math.max(state.weaponUnlocked||0,Math.min(minecraftWeapons.length-1,state.completed.length));save();renderStats();renderTopics();$("resultIcon").textContent=won?"🏆":"🎖️";$("resultTitle").textContent=won?"Boss defeated! Level cleared!":"Level complete!";$("resultText").innerHTML=`You answered <b>${sessionCorrect} of ${l.questions.length}</b> questions correctly and dealt <b>${sessionDamage} damage</b> to ${l.boss}.<br>You earned <b>${sessionXP} XP</b> this battle, including the 30 XP level-completion bonus.${won?" The boss has been defeated!":" Review the explanations and replay the quiz to defeat the boss with more correct answers."}`;$("continueBtn").textContent=i<levels.length-1?"Continue to Level "+(i+2)+" →":"View chapter complete →";$("continueBtn").onclick=()=>{if(i<levels.length-1){state.active=i+1;save();renderTopics();showLesson();}else showFinal();};$("reviewBtn").onclick=()=>showLesson();showOnly("resultPanel");}
+function finishLevel(){const i=state.active,l=levels[i],won=bossHP===0;if(!state.completed.includes(i)){state.completed.push(i);state.completed.sort((a,b)=>a-b);state.xp+=30;sessionXP+=30;state.totalDamage+=0;}state.unlocked=levels.length-1;state.weaponUnlocked=Math.max(state.weaponUnlocked||0,Math.min(minecraftWeapons.length-1,state.completed.length));save();renderStats();renderTopics();$("resultIcon").textContent=won?"🏆":"🎖️";$("resultTitle").textContent=won?"Boss defeated! Level cleared!":"Level complete!";$("resultText").innerHTML=`You answered <b>${sessionCorrect} of ${l.questions.length}</b> questions correctly and dealt <b>${sessionDamage} damage</b> to ${l.boss}.<br>You earned <b>${sessionXP} XP</b> this battle, including the 30 XP level-completion bonus.${won?" The boss has been defeated!":" Review the explanations and replay the quiz to defeat the boss with more correct answers."}`;$("continueBtn").textContent=i<levels.length-1?"Continue to Level "+(i+2)+" →":"View chapter complete →";$("continueBtn").onclick=()=>{if(i<levels.length-1){state.active=i+1;save();renderTopics();showLesson();}else showFinal();};$("reviewBtn").onclick=()=>showLesson();showOnly("resultPanel");}
 function showFinal(){$("resultIcon").textContent="👑";$("resultTitle").textContent="Chapter Master!";$("resultText").innerHTML=`You have cleared all ${levels.length} learning levels!<br>Total XP: <b>${state.xp}</b><br>Total correct-answer damage: <b>${state.totalDamage}</b><br><br>Great work, Storage Guardian slayer. You can replay any level to practise again.`;$("continueBtn").textContent="Replay first level";$("continueBtn").onclick=()=>{state.active=0;save();renderTopics();showLesson();};$("reviewBtn").textContent="Back to final level";$("reviewBtn").onclick=()=>{state.active=levels.length-1;save();renderTopics();showLesson();};showOnly("resultPanel");}
 $("startBtn").onclick=startQuiz;$("nextBtn").onclick=nextQuestion;$("backBtn").onclick=showLesson;$("practiceConfirmBtn").onclick=confirmPractice;$("confirmAnswerBtn").onclick=chooseAnswer;
 $("resetBtn").onclick=()=>{if(confirm("Reset all XP and chapter progress on this browser?")){state={xp:0,unlocked:0,completed:[],active:0,totalDamage:0,weaponUnlocked:0,practiceClaimed:[]};save();renderStats();renderTopics();showLesson();}};
-load();renderStats();renderTopics();showLesson();
+load();updateMainHeading();renderStats();renderTopics();showLesson();
 </script>
 </body>
 </html>
